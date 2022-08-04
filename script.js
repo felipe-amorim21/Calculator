@@ -26,3 +26,14 @@ function operate(operator,a,b){
             return divide(a,b)
     }
 }
+
+let display = ""
+
+div = document.querySelector(".screen")
+btns = document.querySelectorAll(".number")
+btns.forEach(btn => btn.addEventListener("click",function(e){
+    display += btn.textContent
+    div.textContent = display
+}));
+
+
