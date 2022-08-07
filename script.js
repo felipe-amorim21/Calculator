@@ -27,9 +27,9 @@ function operate(operator,a,b){
     }
 }
 
-let display = ""
+let previousNumber = ""
+let nextNumber = ""
 let op = ""
-let userinput
 
 let equal = document.querySelector("#equal")   
 let operators = document.querySelectorAll(".operator")
@@ -38,30 +38,43 @@ let numbers = document.querySelectorAll(".number")
 
 
 function clearDisplay(){
-    display = ""
+    let a = ""
+    populateDisplay(a)
 }
 
-function populateDisplay(){
-    div.textContent = `${display}`
+function populateDisplay(show){
+    div.textContent = show
 }
 
 
 numbers.forEach(number => number.addEventListener("click",function(e){
-    display += number.textContent
-    populateDisplay()
+    clearDisplay()
+    if((typeof(previousNumber)) === "number"){
+        nextNumber += number.textContent
+        populateDisplay(nextNumber)
+    } else {
+        previousNumber += number.textContent
+        populateDisplay(previousNumber)
+    }
 }));
 
 
 operators.forEach(operator => operator.addEventListener("click",function(e){
-    userinput = Number(display)
+    previousNumber = Number(previousNumber)
     op = operator.textContent
     clearDisplay()
 }))
 
 equal.addEventListener("click",function(e){
-    console.log(op)
-    console.log(userinput)
-    console.log(display)
-    display = operate(op,userinput,Number(display))
-    populateDisplay()
+    populateDisplay(operate(op,previousNumber,Number(nextNumber)))
+    previousNumber = operate(op,previousNumber,Number(nextNumber))
+    nextNumber = ""
+})
+
+clear.addEventListener("click",function(e){
+    display = ""
+    op = ""
+    nextNumber = ""
+    previousNumber  = ""
+    populateDisplay(display)
 })
