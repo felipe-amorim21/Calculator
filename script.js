@@ -46,6 +46,13 @@ function populateDisplay(show){
     div.textContent = show
 }
 
+function handleOp(op){
+    if(typeof(previousNumber) === "number" && typeof(nextNumber) === "string" ){
+        populateDisplay(operate(op,previousNumber,Number(nextNumber)))
+        previousNumber = operate(op,previousNumber,Number(nextNumber))
+        nextNumber = ""
+    }
+}
 
 numbers.forEach(number => number.addEventListener("click",function(e){
     clearDisplay()
@@ -60,9 +67,10 @@ numbers.forEach(number => number.addEventListener("click",function(e){
 
 
 operators.forEach(operator => operator.addEventListener("click",function(e){
+    clearDisplay()
+    handleOp(op)
     previousNumber = Number(previousNumber)
     op = operator.textContent
-    clearDisplay()
 }))
 
 equal.addEventListener("click",function(e){
